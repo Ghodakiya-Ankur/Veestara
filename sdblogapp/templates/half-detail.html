@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'detail-article.css' %}">
+</head>
+
+<body>
+
+    <div class="main">
+        <div class="sub-main">
+            <div class="container1">
+                <div class="title-author">
+                    <div class="title">
+                        {{ post.title }}
+                    </div>
+
+                </div>
+                <div class="main-author">
+                    <div class="author">
+                        <div class="author-by">
+                        -By
+                        </div>
+                        <div class="author-name">
+                            <a href="/authorpost/">{{ post.author }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% if post.thumbnail %}
+                    
+                    <img src="{{ post.thumbnail.url }}" alt="">
+                {% endif %}
+            </div>
+            <div class="container2">
+                <div class="logo" data-url="/">
+                    <div class="sub-logo">
+                        <div class="sports"><a href="/home/">Sports</a> </div>
+                        <div class="daily"><a href="/home/">Daily</a> </div>
+                    </div>
+                </div>
+                <div class="category-date" data-url="/">
+                    <div class="category"><a href="/{{ post.category }}/">{{ post.category }}</a></div>
+                    <div class="date">
+                        {{post.post_date}}
+                    </div>
+                </div>
+                <div class="padding-top"></div>
+                <div class="content-container">
+                    <div class="content">
+                        {{ post.body | safe }}
+                    </div>
+                </div>
+                <div class="option">
+                    
+                    <div class="navigate">
+                        <div class="related-article">
+                            <a href="/{{ post.category }}/">
+                                Related Article +
+                            </a>
+                        </div>
+                        <div class="next-article">
+                                <a href="/home/">
+                                    Next - Article
+                                    <img class="arrow" src="/static/arrow.svg" alt="">
+                                </a>
+                        </div>
+    
+                    </div>
+                    <div class="home">
+                        <a href="/home/">
+                            Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% comment %} <h1> {{ post.title }}
+    </h1>
+    <small>By: {{post.author}} {{post.post_date}}
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %} 
+                </small> <a href="{% url 'updatepost' slug=post.slug %}">Edit</a><a href="{% url 'deletepost' post.slug %}"> Delete</a><br>
+            {% else %}
+            Access Denied
+            {% endif %} 
+            
+        {% else %}
+            Access Denied
+        {% endif %}
+    <hr>
+    <br>
+    
+    {% if post.thumbnail %}
+        <img src="{{ post.thumbnail.url }}" alt="">
+    
+    {% endif %}
+        
+    <br>
+    
+    <div class="content">
+        {{ post.body | safe }}
+    </div> {% endcomment %}
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'all-tables.css' %}">
+</head>
+<body>
+<div class="main-container">
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr id="user-{{ user.id }}">
+                    <form id="edit-form-{{ user.id }}" class="edit-form" method="POST" action="{% url 'update_user' user.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <td><input type="text" name="username" class="edit-username" value="{{ user.username }}"><span class="username" style="display: none;">{{ user.username }}</span></td>
+                        <td><input type="email" name="email" class="edit-email" value="{{ user.email }}"><span class="email" style="display: none;">{{ user.email }}</span></td>
+                        <td><input type="text" name="first_name" class="edit-first-name" value="{{ user.first_name }}"><span class="first-name" style="display: none;">{{ user.first_name }}</span></td>
+                        <td><input type="text" name="last_name" class="edit-last-name" value="{{ user.last_name }}"><span class="last-name" style="display: none;">{{ user.last_name }}</span></td>
+                        <td td="td-btn">
+                            <button type="button" class="btn-edit" onclick="editUser({{ user.id }})">Edit</button>
+                            <button type="button" class="btn-save" onclick="saveUser({{ user.id }})" style="display: none;">Save</button>
+                        </td>
+                        
+
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function editUser(userId) {
+        var row = document.getElementById('user-' + userId);
+        row.querySelectorAll('input').forEach(input => input.style.display = 'inline-block');
+        row.querySelectorAll('span').forEach(span => span.style.display = 'none');
+        row.querySelector('.btn-edit').style.display = 'none';
+        row.querySelector('.btn-save').style.display = 'inline-block';
+    }
+    
+    function saveUser(userId) {
+        var form = document.getElementById('edit-form-' + userId);
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        }).then(response => {
+            if (response.ok) {
+                var row = document.getElementById('user-' + userId);
+                row.querySelectorAll('.edit-username, .edit-email, .edit-first-name, .edit-last-name').forEach(input => {
+                    var span = row.querySelector('.' + input.className.replace('edit-', ''));
+                    span.textContent = input.value;
+                });
+                row.querySelectorAll('input').forEach(input => input.style.display = 'none');
+                row.querySelectorAll('span').forEach(span => span.style.display = 'inline-block');
+                row.querySelector('.btn-edit').style.display = 'inline-block';
+                row.querySelector('.btn-save').style.display = 'none';
+
+                // Reload the page
+                location.reload();
+            } else {
+                console.error('Failed to update user record');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function deleteUser(userId) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            fetch(`/delete-user/${userId}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    var row = document.getElementById('user-' + userId);
+                    row.parentNode.removeChild(row);
+                } else {
+                    console.error('Failed to delete user');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+    
+</script>
+</body>
+</html>

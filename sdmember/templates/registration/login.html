@@ -1,0 +1,253 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+    <div class="main">
+        <div class="vid">
+            <video autoplay loop muted class="video-background">
+              <source src="{% static 'login-bg.mp4' %}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+
+            <div class="form-container">
+
+                <div class="logo">
+                    <div class="sport">Sports</div>
+                    <div class="daily">Daily</div>
+                  </div>
+                <div class="container">
+    
+    
+                    <div class="inner-container">
+                        <p class="inner-container-p">Login</p>
+                            <form action="{% url 'login' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field">
+                                        <label for="id_username">Username:</label>
+                                        {{ form.username }}
+                                        {% for error in form.username.errors %}
+                                            <span class="error-msg" style="color: white;">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="id_password">Password:</label>
+                                        {{ form.password }}
+                                        {% for error in form.password.errors %}
+                                            <span class="error-msg" style="color: white;">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <p class="signup-redirect">Don't have an account? <a href="{% url 'register' %}"><strong>Sign up</strong></a></p>
+
+                                <div class="row">
+                                    <div class="login-btn">
+                                        <input type="submit" value="Sign In" class="input-login-btn">
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+            </div>
+</body>
+</html> {% endcomment %}
+{% comment %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+<div class="main">
+    <div class="vid">
+        <video autoplay loop muted class="video-background">
+          <source src="{% static 'login-bg.mp4' %}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="form-container">
+
+        <div class="logo">
+            <div class="sport">Sports</div>
+            <div class="daily">Daily</div>
+        </div>
+        <div class="container">
+
+
+            <div class="inner-container">
+                <p class="inner-container-p">Login</p>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field">
+                            <label for="id_username">Username:</label>
+                            {{ form.username }}
+                            {% for error in form.username.errors %}
+                                <span class="error-msg" style="color: white;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="input-field">
+                            <label for="id_password">Password:</label>
+                            {{ form.password }}
+                            {% for error in form.password.errors %}
+                                <span class="error-msg" style="color: white;">{{ error }}</span>
+                            {% endfor %}
+                            <p class="forgot-password"><a href="{% url 'password_reset' %}">Forgot Password?</a></p>
+                        </div>
+                    </div>
+                    <p class="signup-redirect">Don't have an account? <a href="{% url 'register' %}"><strong>Sign up</strong></a></p>
+
+                    <div class="row">
+                        <div class="login-btn">
+                            <input type="submit" value="Sign In" class="input-login-btn">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</body>
+</html> {% endcomment %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+<div class="main">
+    <div class="vid">
+        <video autoplay loop muted class="video-background">
+          <source src="{% static 'login-bg.mp4' %}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="form-container">
+
+        <div class="logo">
+            <div class="sport">Sports</div>
+            <div class="daily">Daily</div>
+        </div>
+        <div class="container">
+
+
+            <div class="inner-container">
+                <p class="inner-container-p">Login</p>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field">
+                            <label for="id_username">Username:</label>
+                            {{ form.username }}
+                            {% for error in form.username.errors %}
+                                <span class="error-msg" style="color: white;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="input-field">
+                            <label for="id_password">Password:</label>
+                            {{ form.password }}
+                            {% for error in form.password.errors %}
+                                <span class="error-msg" style="color: white;">{{ error }}</span>
+                            {% endfor %}
+                            <!-- Update link to point to your custom password reset page -->
+                            <p class="forgot-password"><a href="{% url 'custom_password_reset' %}">Forgot Password?</a></p>
+                        </div>
+                    </div>
+                    <p class="signup-redirect">Don't have an account? <a href="{% url 'register' %}"><strong>Sign up</strong></a></p>
+
+                    <div class="row">
+                        <div class="login-btn">
+                            <input type="submit" value="Sign In" class="input-login-btn">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+
+<div class="main">
+    <div class="vid">
+        <video autoplay loop muted class="video-background">
+          <source src="{% static 'login-bg1.mp4' %}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="form-container">
+
+        <div class="logo">
+            <div class="sport">Sports</div>
+            <div class="daily">Daily</div>
+        </div>
+        <div class="container">
+
+            <!-- Display general error message -->
+  
+
+            <div class="inner-container">
+                <p class="inner-container-p">Login</p>
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field">
+                            <label for="id_username">Username:</label>
+                            {{ form.username }}
+                            {% for error in form.username.errors %}
+                                <span class="error-msg">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="input-field">
+                            <label for="id_password">Password:</label>
+                            {{ form.password }}
+                            {% for error in form.password.errors %}
+                                <span class="error-msg">{{ error }}</span>
+                            {% endfor %}
+                            {% if form.errors %}
+                            <div class="errormsg">{{ form.non_field_errors }}</div>
+                            {% endif %}
+                            <!-- Update link to point to your custom password reset page -->
+                            <p class="forgot-password"><a href="{% url 'custom_password_reset' %}">Forgot Password?</a></p>
+                        </div>
+                    </div>
+                    <p class="signup-redirect">Don't have an account? <a href="{% url 'register' %}"><strong>Sign up</strong></a></p>
+
+                    <div class="row">
+                        <div class="login-btn">
+                            <input type="submit" value="Sign In" class="input-login-btn">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+</body>
+</html>
+

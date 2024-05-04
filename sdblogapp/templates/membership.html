@@ -1,0 +1,15 @@
+<form method="post" action="{% url 'make_prime' %}">
+    {% csrf_token %}
+    {% for user in queryset %}
+    <input type="hidden" name="user_ids" value="{{ user.id }}">
+    {% endfor %}
+    <button type="submit">Make Prime Member</button>
+</form>
+
+<form method="post" action="{% url 'end_membership' %}">
+    {% csrf_token %}
+    {% for user in queryset %}
+    <input type="hidden" name="user_ids" value="{{ user.id }}">
+    {% endfor %}
+    <button type="submit">End Membership</button>
+</form>

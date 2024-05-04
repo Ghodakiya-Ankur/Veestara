@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        body {
+            background: rgb(34,34,34);
+            background: linear-gradient(90deg, rgba(34,34,34,1) 0%, rgba(173,120,65,1) 81%, rgba(191,151,109,1) 100%);
+            color: #fff;
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #fff;
+        }
+
+        th {
+            text-align: left;
+            background-color: #222;
+            color: #fff;
+        }
+
+        tr:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        td form {
+            display: inline-block;
+        }
+
+        td form input[type="text"],
+        td form input[type="date"],
+        td form button {
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            background-color: rgba(255,255,255,0.5);
+            color: #000;
+            margin: 0;
+        }
+
+        td form button {
+            background-color: #bf976d;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <form method="post" action="{% url 'edit_post' post.id %}">
+                    {% csrf_token %}
+                    <td><input type="text" name="title" value="{{ post.title }}"></td>
+                    <td><input type="text" name="author" value="{{ post.author }}"></td>
+                    <td><input type="date" name="date" value="{{ post.date }}"></td>
+                    <td><input type="text" name="category" value="{{ post.category }}"></td>
+                    <td><button type="submit">Save</button></td>
+                </form>
+                <td>
+                    <form method="post" action="{% url 'delete_post' post.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>

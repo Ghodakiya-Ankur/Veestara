@@ -1,0 +1,827 @@
+{% comment %} <h1>Posts</h1>
+
+
+<ul>   
+  {% for post in object_list %}
+    <li>
+      <a href="{% url 'detail-article' cat=post.category|slugify slug=post.slug %}">{{ post.title }}</a> - {{ post.author }} <a href="{% url 'category' cat=post.category.slug %}">{{ post.category }}</a>{{ post.post_date|date:"Y-m-d" }} {{ post.post_date.hour }}:{{ post.post_date.minute }}:{{ post.post_date.second }}
+
+      {% if user.is_authenticated %}
+            
+            {% if user.id == post.author.id %}
+              <a href="{% url 'newpost' %}">Add post</a> |
+              <a href="{% url 'newcategory' %}">Add Category</a>|
+
+                <a href="{% url 'updatepost' slug=post.slug %}">Edit</a> |
+                <a href="{% url 'deletepost' slug=post.slug %}">Delete</a>
+            {% endif %}
+              
+        {% endif %}
+        
+
+      {{ post.body | safe | slice:":200" }} <br>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'login' %}">Login</a><br>
+<a href="{% url 'register' %}">register</a><br>
+<form action="{% url 'logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script>
+        // Wrap your script in window.onload to make sure it runs after the DOM is fully loaded
+        window.onload = function() {
+            // Add click event listeners for each category
+            const categoryElements = document.querySelectorAll('.cricket, .football, .basketball, .baseball, .hocky, .athelatics, .valleyball, .golf');
+
+            categoryElements.forEach(function(category) {
+                category.addEventListener('click', function() {
+                    // Toggle the 'active' class for the clicked category
+                    this.classList.toggle('active');
+
+                    // Remove 'active' from other categories
+                    categoryElements.forEach(function(otherCategory) {
+                        if (otherCategory !== category) {
+                            otherCategory.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        };
+    </script>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'landingpage.css' %}">
+</head>
+<body>
+    <div class="main">
+        <div class="leftpanel">
+            <div class="logo" data-url="/">
+                <div class="sports">Sports</div>
+                <div class="daily">Daily</div>
+            
+            </div>
+            <div class="category">
+                <div class="categories">
+                    <div class="baseball" id="leftpanel" data-url="/prime/">
+                        <img src="/static/limit/article.svg" alt="">
+                        <div class="football-title">Prime</div>
+                    </div>
+                    <div class="cricket" id="leftpanel" data-url="/cricket/">
+                        <img src="/static/icon/category/cricket.png" alt="">
+                        <div class="cricket-title">Cricket</div>
+                    </div>
+                    <div class="football" id="leftpanel" data-url="/football/">
+                        <img src="/static/icon/category/football.png" alt="">
+                        <div class="football-title">Football</div>
+                    </div>
+                    <div class="basketball" id="leftpanel" data-url="/basketball/">
+                        <img src="/static/icon/category/basketball.png" alt="">
+                        <div class="football-title">BasketBall</div>
+                    </div>
+
+                    <div class="hocky" id="leftpanel" data-url="/hockey/">
+                        <img src="/static/icon/category/hocky.png" alt="">
+                        <div class="hocky-title">Hockey</div>
+                    </div>
+                    <div class="athelatics" id="leftpanel" data-url="/athelatics/">
+                        <img src="/static/icon/category/athelatics.png" alt="">
+                        <div class="athelatics-title">Athelatics</div>
+                    </div>
+                    <div class="valleyball" id="leftpanel" data-url="/valley-ball/">
+                        <img src="/static/icon/category/valleyball.png" alt="">
+                        <div class="athelatics-title">Valley Ball</div>
+                    </div>
+                    <div class="golf" id="leftpanel" data-url="/golf/">
+                        <img src="/static/icon/category/golf.png" alt="">
+                        <div class="golf-title">Golf</div>
+                    </div>
+            </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="gird">
+
+                <div class="header">
+                    <div class="header-1">
+                        
+                        <div class="search-container">
+                            <form action="{% url 'search' %}" class="search-form" method="POST">
+                                {% csrf_token %}
+                                <input class="search-txt" type="text" placeholder="Type To Search..." name="search">
+                                <button class="search-btn" type="submit"><img class="search-icon" src="/static/icon/search.svg" alt=""></button>
+                            </form>
+                            
+                        </div>
+                    </div>
+                    <div class="header-2">
+                        <button class="login-btn" type="submit" onclick="redirectUser('{% url 'login' %}')">Login</button>
+                        <button class="signup-btn" type="submit" onclick="redirectUser('{% url 'register' %}')">Sign-Up</button>
+
+
+                        
+                    </div>
+                </div>
+                <div class="hr"><hr></div>
+                    {% comment %} <a href="{% url 'fullarticle' %}"> {% endcomment %}
+                        {% comment %} <div class="sub-slider">
+                            <div class="slider">
+                                <div class="images">
+                                    <input type="radio" name="slide" id="img1" checked>
+                                    <input type="radio" name="slide" id="img2">
+                                    <input type="radio" name="slide" id="img3">
+                                    <input type="radio" name="slide" id="img4">
+                                    <input type="radio" name="slide" id="img5">
+                                    <input type="radio" name="slide" id="img6">
+                                    <input type="radio" name="slide" id="img7">
+                                    <input type="radio" name="slide" id="img8">
+
+
+    
+                                    <img class="m1" src="{% static '1.png' %}" alt="img1">
+                                    <img class="m2" src="{% static '2.png' %}" alt="img2">
+                                    <img class="m3" src="{% static '3.png' %}" alt="img3">
+                                    <img class="m4" src="{% static '4.png' %}" alt="img4">
+                                    <img class="m5" src="{% static '5.png' %}" alt="img5">
+                                    <img class="m6" src="{% static '6.png' %}" alt="img6">
+                                    <img class="m7" src="{% static '7.png' %}" alt="img7">
+                                    <img class="m8" src="{% static '8.png' %}" alt="img8">
+
+
+                                    
+    
+                                </div>
+                                <div class="dots">
+                                    <label for="img1" class="active"></label>
+                                    <label for="img2"></label>
+                                    <label for="img3"></label>
+                                    <label for="img4"></label>
+                                    <label for="img5"></label>
+                                    <label for="img6"></label>
+                                    <label for="img7"></label>
+                                    <label for="img8"></label>
+
+
+
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+                        <div class="slider-container">
+                            <div class="slide">
+                              <img src="{% static '1.png' %}" alt="Image 1">
+                            </div>
+                            <div class="slide">
+                              <img src="{% static '2.png' %}" alt="Image 2">
+                            </div>
+                            <div class="slide">
+                              <img src="{% static '3.png' %}" alt="Image 3">
+                            </div>
+                            <div class="slide">
+                                <img src="{% static '4.png' %}" alt="Image 4">
+                            </div>
+                            <div class="slide">
+                                <img src="{% static '5.png' %}" alt="Image 5">
+                            </div>
+                            <div class="slide">
+                                <img src="{% static '6.png' %}" alt="Image 6">
+                            </div>
+                            <div class="slide">
+                                <img src="{% static '7.png' %}" alt="Image 7">
+                            </div>
+                            <div class="slide">
+                                <img src="{% static '8.png' %}" alt="Image 8">
+                            </div>
+                            <!-- Add more slides as needed -->
+                          </div>
+                          <div class="dots-container"></div>
+                        <div class="main-TopStory">
+                            <div class="TopStories">
+                                <div class="grid-container">
+                                    <div class="sub-grid-container">
+                                        <div class="sub-grid-container-a">
+                                            <div class="sub-grid-container-a-1">
+                                                <div class="item a">
+                                                    {% for post in cricket_posts|slice:":1" %}
+                                                            <div class="item-main-a">
+                                                                <div class="item-sub-a">
+                                                                    <div class="item-a-detail">
+                                                                        <div class="item-a-title">
+                                                                            <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item-a-post-detail">
+                                                                        <div class="item-a-category"><a href="/{{ post.category }}/">
+                                                                            {{ post.category }}</a> 
+                                                                        </div>
+                                                                        <div class="item-a-author">
+                                                                            <div class="item-a-author-by"> --By</div> 
+                                                                            <div class="item-a-author-name"><a href="/authorpost/">{{ post.author }}</a></div>
+                                                                        </div> 
+                                                                        <div class="item-a-date">
+                                                                            <div class="post-date-day">{{ post.post_date|date:"d" }}</div>
+                                                                            <div class="post-date-month">{{ post.post_date|date:"M" }}</div>
+                                                                            <div class="post-date-year">{{ post.post_date|date:"Y" }}</div>
+                        
+                        
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                    <div class="item-a-img">
+                                                                        <div class="item-a-sub-img">
+                                                                            {% if post.thumbnail %}
+                                                                                <img src="{{ post.thumbnail.url }}" alt="">
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="sub-grid-container-a-2">
+                                                <div class="sub-grid-container-a-2-a">
+                                                    <div class="main-grid-container-a-2">
+                                                        {% for post in football_posts|slice:":1" %}
+                                                            <div class="sub-grid-container-a-2-football">
+                                                                <div class="sub-grid-container-a-2-football-img">
+                                                                    {% if post.thumbnail %}
+                                                                        <img src="{{ post.thumbnail.url }}" alt="">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="sub-grid-container-a-2-football-title">
+                                                                    <div class="sub-grid-container-a-2-1-football-title">
+                                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                                        
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="sub-grid-container-a-2-1-football-detail">
+                                                                    <div class="sub-grid-container-a-2-1-football-detail-excerpt">
+                                                                        {{ post.body | safe | slice:":150" }}...
+                                                                    </div>
+                                                                    
+
+                                                                </div>
+                                                                <div class="sub-grid-container-a-2-1-football-read-more">
+                                                                    <div class="sub-grid-container-a-2-1-football-read-more-btn">
+                                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="sub-grid-container-a-2-b">
+                                                    {% comment %} <div class="sub-grid-container-a-2"> {% endcomment %}
+                                                        <div class="main-grid-container-a-2-b-b">
+                                                            {% for post in basketball_posts|slice:":1" %}
+                                                                <div class="sub-grid-container-a-2-football">
+                                                                    <div class="sub-grid-container-a-2-football-img">
+                                                                        {% if post.thumbnail %}
+                                                                            <img src="{{ post.thumbnail.url }}" alt="">
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="sub-grid-container-a-2-football-title">
+                                                                        <div class="sub-grid-container-a-2-1-football-title">
+                                                                            <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                                            
+                                                                        </div>
+    
+                                                                    </div>
+                                                                    <div class="sub-grid-container-a-2-1-football-detail">
+                                                                        <div class="sub-grid-container-a-2-1-football-detail-excerpt">
+                                                                            {{ post.body | safe | slice:":150" }}...
+                                                                        </div>
+                                                                        
+    
+                                                                    </div>
+                                                                    <div class="sub-grid-container-a-2-1-football-read-more">
+                                                                        <div class="sub-grid-container-a-2-1-football-read-more-btn">
+                                                                            <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+    
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% comment %} </div> {% endcomment %}
+                                                </div>
+                                                <div class="sub-grid-container-a-3-b">
+                                                    <div class="main-grid-container-a-2">
+                                                        {% for post in athelatics_posts|slice:":1" %}
+                                                            <div class="sub-grid-container-a-2-football">
+                                                                <div class="sub-grid-container-a-2-football-img">
+                                                                    {% if post.thumbnail %}
+                                                                        <img src="{{ post.thumbnail.url }}" alt="">
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="sub-grid-container-a-2-football-title">
+                                                                    <div class="sub-grid-container-a-2-1-football-title">
+                                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                                        
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="sub-grid-container-a-2-1-football-detail">
+                                                                    <div class="sub-grid-container-a-2-1-football-detail-excerpt">
+                                                                        {{ post.body | safe | slice:":150" }}...
+                                                                    </div>
+                                                                    
+
+                                                                </div>
+                                                                <div class="sub-grid-container-a-2-1-football-read-more">
+                                                                    <div class="sub-grid-container-a-2-1-football-read-more-btn">
+                                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="sub-grid-container-b">
+                                            <div class="sub-main-grid-container-b-title">
+                                                <div class="sub-grid-container-b-title">
+                                                    <p class="sports-title">Sports</p> <p class="daily-title">Daily</p> <p class="prime-title">Prime</p> <p class="special-title">Special</p> 
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="prime-main-grid-post-container">
+                                                {% for post in prime_posts|slice:":5" %}
+                                                    <div class="prime-sub-grid-post-container">
+                                                        <div class="prime-post-container">
+                                                            <div class="prime-post-sub-container">
+                                                                <div class="prime-post-container-title">
+                                                                    <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                                </div>
+                                                                <div class="prime-grid-card-by-author">
+                                                                    <div class="prime-grid-card-by">
+                                                                        --By
+                                                                    </div>
+                                                                    <div class="prime-grid-card-author">
+                                                                        <a href="/authorpost/">{{ post.author }}</a>
+                                                                    </div>
+                                                                    <div class="prime-grid-post-readmore">
+                                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+    
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="prime-post-container-image">
+                                                                {% if post.thumbnail %}
+                                                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                                                {% endif %}
+                                                            </div>
+
+
+
+                                                        </div>
+                   
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-hr-cricket">
+                            <div class="hr-cricket">
+                                <p>Cricket</p> <hr>
+                             </div>
+                        </div>
+                        <div class="cricket-post-main-grid-card">
+                            <div class="cricket-post-sub-grid-card">
+                            {% for post in cricket_posts|slice:":5" %}
+                                <div class="cricket-post-inner-grid-card">
+                                        <div class="cricket-post-inner-grid-card-image">
+                                            {% if post.thumbnail %}
+                                                <img src="{{ post.thumbnail.url }}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="cricket-post-inner-grid-title">
+                                            <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+
+                                        </div>
+                                        <div class="cricket-post-inner-grid-readmore-date">
+                                            <div class="cricket-post-inner-grid-readmore">
+                                                <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+                                            </div>
+                                            <div class="cricket-post-inner-grid-date">
+                                                <div class="cricket-post-inner-date-day">{{ post.post_date|date:"d" }}</div>
+                                                <div class="cricket-post-inner-month">{{ post.post_date|date:"M" }}</div>
+                                                <div class="cricket-post-inner-year">{{ post.post_date|date:"Y" }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="main-hr-cricket">
+                            <div class="hr-cricket">
+                                <p>FootBall</p> <hr>
+                             </div>
+                        </div>
+                        <div class="football-post-main-grid">
+                            <div class="football-post-sub-grid">
+                                <div class="football-post-mini-grid">
+                                    {% for post in football_posts|slice:":3" %}
+
+                                        <div class="football-post-inner-grid">
+                                            <div class="football-post-inner-grid-detail">
+                                                <div class="football-post-inner-grid-title">
+                                                    <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:70" }}...</a>
+
+                                                </div>
+                                                <div class="football-post-inner-grid-readmore-date">
+                                                    <div class="football-post-inner-grid-readmore">
+                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+                                                    </div>
+                                                    <div class="football-post-inner-grid-date">
+                                                        <div class="football-post-inner-date-day">{{ post.post_date|date:"d" }}</div>
+                                                        <div class="football-post-inner-month">{{ post.post_date|date:"M" }}</div>
+                                                        <div class="football-post-inner-year">{{ post.post_date|date:"Y" }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="football-post-inner-grid-image">
+                                                {% if post.thumbnail %}
+                                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                                {% endif %}
+                                            </div> 
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="main-hr-cricket">
+                            <div class="hr-cricket">
+                                <p>BasketBall</p> <hr>
+                             </div>
+                        </div>
+                        <div class="main-basketball-grid-card">
+                            <div class="cricket-post-main-grid-card">
+                                <div class="cricket-post-sub-grid-card">
+                                {% for post in cricket_posts|slice:":5" %}
+                                    <div class="cricket-post-inner-grid-card">
+                                            <div class="cricket-post-inner-grid-card-image">
+                                                {% if post.thumbnail %}
+                                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="cricket-post-inner-grid-title">
+                                                <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+    
+                                            </div>
+                                            <div class="cricket-post-inner-grid-readmore-date">
+                                                <div class="cricket-post-inner-grid-readmore">
+                                                    <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+                                                </div>
+                                                <div class="cricket-post-inner-grid-date">
+                                                    <div class="cricket-post-inner-date-day">{{ post.post_date|date:"d" }}</div>
+                                                    <div class="cricket-post-inner-month">{{ post.post_date|date:"M" }}</div>
+                                                    <div class="cricket-post-inner-year">{{ post.post_date|date:"Y" }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-hr-cricket">
+                            <div class="hr-cricket">
+                                <p>BasketBall</p> <hr>
+                             </div>
+                        </div>
+                        <div class="multiple-main-container-grid">
+                            <div class="multiple-sub-container-grid">
+                                <div class="multiple-mini-container-grid-1">
+                                    <div class="multiple-mini-container-grid-1-title">
+                                        <div class="multiple-mini-container-grid-1-sub-title">
+                                            <p class="sports-title-multiple">Sports</p> <p class="daily-title-multiple">Daily</p> <p class="category-title-multiple">BasketBall</p> 
+                                        </div>
+                                    </div>
+                                    {% for post in basketball_posts|slice:":5" %}
+                                    <div class="multiple-main-container-grid-1-details">
+                                        
+                                            <div class="multiple-sub-container-grid-1-details">
+                                                <div class="multiple-sub-container-grid-1-title">
+                                                    <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                </div>
+                                                <div class="multiple-sub-container-grid-1-by-author">
+                                                    <div class="multiple-sub-container-grid-1-readmore">
+                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+
+                                                    </div>
+                                                    <div class="multiple-sub-container-grid-1-by-author-main">
+                                                        <div class="multiple-sub-container-grid-1-by">
+                                                            --By
+                                                        </div>
+                                                        <div class="multiple-sub-container-grid-1-author">
+                                                            <a href="/authorpost/">{{ post.author }}</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="multiple-main-container-grid-1-image">
+                                                {% if post.thumbnail %}
+                                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                                {% endif %}
+                                            </div>
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="multiple-mini-container-grid-2">
+                                        <div class="multiple-mini-container-grid-2-title">
+                                            <div class="multiple-mini-container-grid-2-sub-title">
+                                                <p class="sports-title-multiple">Sports</p> <p class="daily-title-multiple">Daily</p> <p class="category-title-multiple">Athelatics</p> 
+                                            </div>
+                                            
+                                        </div>
+                                        {% for post in basketball_posts|slice:":5" %}
+                                    <div class="multiple-main-container-grid-2-details">
+                                        
+                                            <div class="multiple-sub-container-grid-1-details">
+                                                <div class="multiple-sub-container-grid-1-title">
+                                                    <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                </div>
+                                                <div class="multiple-sub-container-grid-1-by-author">
+                                                    <div class="multiple-sub-container-grid-1-readmore">
+                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+
+                                                    </div>
+                                                    <div class="multiple-sub-container-grid-1-by-author-main">
+                                                        <div class="multiple-sub-container-grid-1-by">
+                                                            --By
+                                                        </div>
+                                                        <div class="multiple-sub-container-grid-1-author">
+                                                            <a href="/authorpost/">{{ post.author }}</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="multiple-main-container-grid-1-image">
+                                                {% if post.thumbnail %}
+                                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                                {% endif %}
+                                            </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="multiple-mini-container-grid-3">
+                                    <div class="multiple-mini-container-grid-3-title">
+                                        <div class="multiple-mini-container-grid-3-sub-title">
+                                            <p class="sports-title-multiple">Sports</p> <p class="daily-title-multiple">Daily</p> <p class="category-title-multiple">Hockey</p> 
+                                        </div>
+                                        
+                                    </div>
+                                    {% for post in basketball_posts|slice:":5" %}
+                                    <div class="multiple-main-container-grid-3-details">
+                                        
+                                            <div class="multiple-sub-container-grid-1-details">
+                                                <div class="multiple-sub-container-grid-1-title">
+                                                    <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title|slice:"0:60" }}...</a>
+                                                </div>
+                                                <div class="multiple-sub-container-grid-1-by-author">
+                                                    <div class="multiple-sub-container-grid-1-readmore">
+                                                        <a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">Read More</a>
+
+                                                    </div>
+                                                    <div class="multiple-sub-container-grid-1-by-author-main">
+                                                        <div class="multiple-sub-container-grid-1-by">
+                                                            --By
+                                                        </div>
+                                                        <div class="multiple-sub-container-grid-1-author">
+                                                            <a href="/authorpost/">{{ post.author }}</a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="multiple-main-container-grid-1-image">
+                                                {% if post.thumbnail %}
+                                                    <img src="{{ post.thumbnail.url }}" alt="">
+                                                {% endif %}
+                                            </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% comment %} <div class="cricket-category-post">
+                            <h2>Cricket Posts</h2>
+                                <ul>
+                                    {% for post in cricket_posts %}
+                                        <li>{{ post.title }}</li>
+                                    {% endfor %}
+                                </ul>
+                        </div>
+                        <div class="all-category-post">
+                            
+                            {% for category, posts in category_posts.items %}
+                            <h2>{{ category.name }}</h2>
+                            <ul>
+                                {% for post in posts %}
+                                    <li><a href="{% url 'detail-article' cat=post.category.slug slug=post.slug %}">{{ post.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                        
+                        
+                                
+                        </div> {% endcomment %}
+
+                  <br>
+            </div>
+        </div>
+
+        
+    </div>
+    <div class="footer">
+        <div class="footer-con">
+            <div class="newsletter">
+                <div class="newsletter-title">
+                    Join Our Newsletter Community
+                </div>
+                <form method="post" action="{% url 'subscribe_newsletter' %}">
+                    {% csrf_token %}
+
+                    <div class="newletter-input-btn">
+                        <input class="newsletter-input-field" type="email" name="email" placeholder="Enter Your E-mail....">
+                        <button class="newsletter-btn" type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+            <div class="con-footer">
+                <div class="con1">
+                    <div class="footer-con1-title">About</div>
+                    <div class="footer-dis">Welcome to Sports Daily, your ultimate destination for all things sports! Established with a passion for the game, we bring you comprehensive coverage, insightful analyses, and the latest updates across various sports.</div>
+                </div>
+                <div class="con3">
+                    <div class="sub-con3">
+                        <div class="con3-title">
+                            Reach Us Out
+                        </div>
+                        <div class="con3-email-title">
+                            <img src="/static/icon/email.svg" alt="">
+                            <p>Email - US</p>
+                        </div>
+                        <div class="con3-email">
+                            <p>SportsDaily@Businees.com</p>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="con2">
+                    <div class="footer-con2-title">
+                        Follow - Us
+                    </div>
+                    <div class="social-icon">
+                        <a href="https://twitter.com">
+                            <img src="/static/icon/Twitter.png" alt="Twitter Icon" class="social-icon-img"> 
+                        </a>
+                        <a href="https://www.instagram.com/"><img src="/static/icon/instagram.png" alt="Twitter Icon" class="social-icon-img"></a>               
+                        <img src="/static/icon/Facebook.png" alt="Twitter Icon" class="social-icon-img">
+                        <img src="/static/icon/LinkedIn.png" alt="Twitter Icon" class="social-icon-img">
+                        <img src="/static/icon/YouTube.png" alt="Twitter Icon" class="social-icon-img">
+                    </div>
+                </div>
+                
+            </div>
+            <div class="f-credit">
+                <div class="divider">
+                    <hr>
+                    X
+                    <hr>
+                </div>
+                <div class="footer-c-p">
+                    <div class="footer-credit">
+                        <h3>© 2023 Imagica Resort. All rights reserved</h3>
+                    </div>
+                    <div class="f-page">
+                        <p>Home</p>
+                        <p><a href="/legalpage/">About - Us</a></p>
+                        <p><a href="/legalpage/">Contact - Us</a></p>
+                        <p><a href="/privacypolicy/">Privacy</a></p>
+                    </div>
+                </div>
+                
+            </div>   
+
+        </div>
+        
+    </div>
+   
+    <script>
+        const hlinks = document.querySelectorAll("#leftpanel, .logo, .bell, .profile");
+
+        hlinks.forEach(link => {
+            link.addEventListener("click", function () {
+                const url = this.getAttribute('data-url');
+                window.location.href = url
+
+                this.classList.add('clicked');
+
+                // Remove the 'clicked' class after a short delay (for visual feedback)
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+            })
+        })
+        document.addEventListener("DOMContentLoaded", function() {
+            const dots = document.querySelectorAll('.dots label');
+        
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    // Remove active class from all dots
+                    dots.forEach(d => d.classList.remove('active'));
+        
+                    // Add active class to the clicked dot
+                    this.classList.add('active');
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const dots = document.querySelectorAll('.dots label');
+            let currentIndex = 0;
+        
+            // Function to simulate click event on the next dot
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % dots.length; // Increment index, loop back to 0 if at the end
+                dots[currentIndex].click(); // Simulate click event on the next dot
+            }
+        
+            setInterval(nextSlide, 4000);
+        
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    dots.forEach(d => d.classList.remove('active'));
+        
+                    this.classList.add('active');
+        
+                    currentIndex = index; 
+                });
+            });
+        });
+        
+ 
+        let slides = document.querySelectorAll('.slide');
+        let dotsContainer = document.querySelector('.dots-container');
+        let currentSlide = 0;
+
+        // Create dots for each slide
+        slides.forEach((slide, index) => {
+        let dot = document.createElement('span');
+        dot.classList.add('dot');
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+        dotsContainer.appendChild(dot);
+        });
+
+        // Show initial slide
+        showSlide(0);
+
+        function showSlide(index) {
+        slides.forEach((slide) => {
+            slide.style.display = 'none';
+        });
+        dotsContainer.querySelectorAll('.dot').forEach((dot) => {
+            dot.classList.remove('active');
+        });
+        slides[index].style.display = 'block';
+        dotsContainer.querySelector('.dot:nth-child(' + (index + 1) + ')').classList.add('active');
+        currentSlide = index;
+        }
+
+        function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+        function redirectUser(url) {
+            window.location.href = url;
+        }
+
+    </script>
+</body>
+</html>

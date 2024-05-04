@@ -1,0 +1,170 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+</head>
+<body>
+
+    <div class="main">
+        <div class="vid">
+            <video autoplay loop muted class="video-background">
+              <source src="{% static 'login-bg.mp4' %}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+        </div>
+
+            <div class="form-container">
+
+                <div class="logo">
+                    <div class="sport">Sports</div>
+                    <div class="daily">Daily</div>
+                  </div>
+                <div class="container">
+    
+    
+                    <div class="inner-container">
+                        <p class="inner-container-p">Sign - Up</p>
+                            <form action="{% url 'register' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field">
+                                        <label for="id_first_name">First Name:</label>
+                                        {{ form.first_name }}
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="id_last_name">Last Name:</label>
+                                        {{ form.last_name }}
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="id_username">Username:</label>
+                                        {{ form.username }}
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="id_email">Email:</label>
+                                        {{ form.email }}
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="id_password">Password:</label>
+                                        {{ form.password }}
+                                    </div>
+                                    <div class="input-field">
+                                        <label for="id_confirm_password">Confirm Password:</label>
+                                        {{ form.confirm_password }}
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="login-btn">
+                                        <input type="submit" value="Sign Up" class="input-login-btn">
+                                    </div>
+                                </div>
+                            </form>
+                    </div>
+            </div>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+</head>
+<body>
+    <div class="main">
+        <div class="vid">
+            <video autoplay loop muted class="video-background">
+              <source src="{% static 'login-bg1.mp4' %}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+
+        <div class="form-container">
+
+            <div class="logo">
+                <div class="sport">Sports</div>
+                <div class="daily">Daily</div>
+              </div>
+            <div class="container">
+
+
+                <div class="inner-container">
+                    <p class="inner-container-p">Sign - Up</p>
+
+
+
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="input-field">
+                                <label for="id_first_name">First Name:</label>
+                                {{ form.first_name }}
+                                {% if form.errors.first_name %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.first_name }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="input-field">
+                                <label for="id_last_name">Last Name:</label>
+                                {{ form.last_name }}
+                                {% if form.errors.last_name %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.last_name }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="input-field">
+                                <label for="id_username">Username:</label>
+                                {{ form.username }}
+                                {% if form.errors.username %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.username }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="input-field">
+                                <label for="id_email">Email:</label>
+                                {{ form.email }}
+                                {% if form.errors.email %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.email }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="input-field">
+                                <label for="id_phone_number">Phone Number:</label>
+                                {{ form.phone_number }}
+                                {% if form.errors.phone_number %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.phone_number }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="input-field">
+                                <label for="id_password">Password:</label>
+                                {{ form.password }}
+                                {% if form.errors.password %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.password }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="input-field">
+                                <label for="id_confirm_password">Confirm Password:</label>
+                                {{ form.confirm_password }}
+                                {% if form.errors.confirm_password %}
+                                    <span class="error-msg" style="color: white;">{{ form.errors.confirm_password }}</span>
+                                {% endif %}
+                            </div>
+                        <p class="login-redirect">Already have an account? <a href="{% url 'login' %}"><strong>Login</strong></a></p>
+
+                        <div class="row">
+                            <div class="signup-btn">
+                                <input type="submit" value="Sign Up" class="input-signup-btn">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,129 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.main {
+    position: relative;
+    height: 100%;
+    overflow: hidden; 
+}
+
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; 
+    object-fit: cover;
+    z-index: -1;
+    
+  }
+
+.form-container {
+    position: relative;
+    z-index: 1; 
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    /* background-color: #fff; */
+    align-items: center;
+    height: 100%;
+}
+
+.logo{
+    display: flex;
+    margin-bottom: 1vw;
+
+}
+.sport, .daily{
+    margin-top: 6vw;
+    font-weight: 500;
+    font-size: 3vw;
+    margin: 0 0.4vw;
+}
+.sport{
+    color: aliceblue;
+}
+.daily{
+    color: #BF976D;
+}
+
+.container{
+    width: 25vw;
+    background-color: rgba(255, 255, 255, 0.2); 
+    border-radius: 0.8vw;
+    backdrop-filter: blur(10px); 
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    
+}
+.input-field{
+    margin: 0.6vw 0;
+}
+.signup-btn{
+    margin: 1.4vw 0;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.input-field{
+    display: flex;
+
+    flex-direction: column;
+}
+.signup-input-lable{
+    margin: 0.3vw 0;
+}
+label{
+    font-size: 0.8vw;
+    color: #fff;
+    padding-bottom: 0.3vw;
+}
+.inner-container-p{
+    margin: 2vw 0;
+    margin: 2vw 4vw;
+    font-size: 2.2vw;
+    font-weight: 500;
+    color: rgb(221, 224, 227);
+}
+.form-control{
+    height: 2vw;
+    border-radius: 0.3vw;
+    border: 0.1vw solid #BF976D;
+    background-color: rgb(231, 233, 239);
+}
+.input-signup-btn{
+    width: 5vw;
+    height: 2vw;
+    border-radius: 0.3vw;
+    border: 0.1vw solid #222;
+    transition-duration: 0.5s;
+    cursor: pointer;
+    font-weight: 600;
+
+
+}
+.input-signup-btn:hover{
+    width: 5vw;
+    height: 2vw;
+    border-radius: 0.3vw;
+    border: 0.1vw solid #222;
+    background-color: #BF976D;
+    transition-duration: 0.5s;
+    cursor: pointer;
+    font-weight: 600;
+
+}
+.login-redirect{
+    color: #fff;
+    font-size: 1vw;
+    text-align: center;
+}
+.login-redirect a{
+    color: #BF976D;
+}

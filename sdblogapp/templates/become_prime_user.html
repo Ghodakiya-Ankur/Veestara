@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profiles</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: rgb(34,34,34);
+            background: linear-gradient(90deg, rgba(34,34,34,1) 0%, rgba(173,120,65,1) 81%, rgba(191,151,109,1) 100%);
+            font-family: sans-serif;
+            font-weight: 100;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        table {
+            width: 100%; /* Modified width */
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        th,
+        td {
+            padding: 15px;
+            background-color: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        thead th {
+            background-color: #222;
+            border: 0.1vw solid #bf976d;
+        }
+
+        tr:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        td:hover:before {
+            content: "";
+            position: relative;
+            left: 0;
+            right: 0;
+            top: -9999px;
+            bottom: -9999px;
+            background-color: rgba(255,255,255,0.2);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>User</th>
+                    <th>Is Prime User</th>
+                    <th>Subscription Start Date</th> <!-- New column -->
+                    <th>Subscription Expiry Date</th> <!-- New column -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile in profiles %}
+                <form method="post" action="{% url 'EditPrimeRole' %}">
+                    <tr>
+                        <td>{{ profile.user.id }}</td> <!-- Display User ID -->
+                        <td>{{ profile.user }}</td>
+                        <td>{{ profile.is_prime_user }}</td>
+
+                        <td>
+                            
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ profile.user.id }}">
+                                <button type="submit">{% if profile.is_prime_user %}Make Normal{% else %}Make Prime{% endif %}</button>
+                                <td>
+                                    <input type="date" name="subscription_start_date" value="{{ profile.subscription_start_date|default_if_none:'' }}">
+
+                                    <input type="date" name="subscription_expiry_date" value="{{ profile.subscription_expiry_date|default_if_none:'' }}">
+        
+                                </td>
+                                <td>
+                                    <button type="submit">Save</button>
+                                </td>
+        
+
+                            </form>
+                        </td>
+                    </tr>
+                </form>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

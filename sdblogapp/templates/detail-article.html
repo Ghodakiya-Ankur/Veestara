@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'detail-article.css' %}">
+</head>
+
+<body>
+{% if is_prime_user or not post.category.name == 'Prime' %}
+
+    <div class="main">
+        <div class="sub-main">
+            <div class="container1">
+                <div class="title-author">
+                    <div class="title">
+                        {{ post.title }}
+                    </div>
+
+                </div>
+                <div class="main-author">
+                    <div class="author">
+                        <div class="author-by">
+                        -By
+                        </div>
+                        <div class="author-name">
+                            <a href="/authorpost/">{{ post.author }}</a>
+                        </div>
+                    </div>
+                </div>
+                {% if post.thumbnail %}
+                    
+                    <img src="{{ post.thumbnail.url }}" alt="">
+                {% endif %}
+            </div>
+            <div class="container2">
+                <div class="logo" data-url="/">
+                    <div class="sub-logo">
+                        <div class="sports"><a href="/home/">Sports</a> </div>
+                        <div class="daily"><a href="/home/">Daily</a> </div>
+                    </div>
+                </div>
+                <div class="category-date" data-url="/">
+                    <div class="category"><a href="/{{ post.category }}/">{{ post.category }}</a></div>
+                    <div class="date">
+                        {{ post.post_date | date:"d" }} 
+                        <span style="color: #BF976D;">{{ post.post_date | date:"M" }}</span>
+                        {{ post.post_date | date:"Y" }}
+                    </div>
+                </div>
+                <div class="padding-top"></div>
+                <div class="content-container">
+                    <div class="content">
+                        {{ post.body | safe }}
+                    </div>
+                </div>
+                <div class="option">
+   
+                    
+                    <div class="navigate">
+                        <div class="related-article">
+                            <a href="/{{ post.category }}/">
+                                Related Article +
+                            </a>
+                        </div>
+                        <div class="next-article">
+                                <a href="/home/">
+                                    Next - Article
+                                    <img class="arrow" src="/static/arrow.svg" alt="">
+                                </a>
+                        </div>
+    
+                    </div>
+                    <div class="home">
+                        <a href="/home/">
+                            Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% comment %} <h1> {{ post.title }}
+    </h1>
+    <small>By: {{post.author}} {{post.post_date}}
+        {% if user.is_authenticated %}
+            {% if user.id == post.author.id %} 
+                </small> <a href="{% url 'updatepost' slug=post.slug %}">Edit</a><a href="{% url 'deletepost' post.slug %}"> Delete</a><br>
+            {% else %}
+            Access Denied
+            {% endif %} 
+            
+        {% else %}
+            Access Denied
+        {% endif %}
+    <hr>
+    <br>
+    
+    {% if post.thumbnail %}
+        <img src="{{ post.thumbnail.url }}" alt="">
+    
+    {% endif %}
+        
+    <br>
+    
+    <div class="content">
+        {{ post.body | safe }}
+    </div> {% endcomment %}
+{% else %}
+        <div class="main">
+            <div class="sub-main">
+                <div class="container1">
+                    <div class="title-author">
+                        <div class="title">
+                            {{ post.title }}
+                        </div>
+
+                    </div>
+                    <div class="main-author">
+                        <div class="author">
+                            <div class="author-by">
+                            -By
+                            </div>
+                            <div class="author-name">
+                                {{ post.author }}
+                            </div>
+                        </div>
+                    </div>
+                    {% if post.thumbnail %}
+                        
+                        <img src="{{ post.thumbnail.url }}" alt="">
+                    {% endif %}
+                </div>
+                <div class="container2">
+                    <div class="logo" data-url="/">
+                        <div class="sub-logo">
+                            <div class="sports"><a href="/home/">Sports</a> </div>
+                            <div class="daily"><a href="/home/">Daily</a> </div>
+                        </div>
+                    </div>
+                    <div class="category-date" data-url="/">
+                        <div class="category"><a href="/{{ post.category }}/">{{ post.category }}</a></div>
+                        <div class="date">
+                            {{ post.post_date | date:"d" }} 
+                            <span style="color: #BF976D;">{{ post.post_date | date:"M" }}</span>
+                            {{ post.post_date | date:"Y" }}
+                        </div>
+                    </div>
+                    <div class="padding-top"></div>
+                    <div class="limited-content-container">
+                        <div class="content">
+                            {{ post.body | safe | slice:":300"}}
+                        </div>
+                    </div>
+                    <div class="limited-option">
+
+                        
+                        {% comment %} <div class="navigate">
+                            <div class="related-article">
+                                <a href="/{{ post.category }}/">
+                                    Related Article +
+                                </a>
+                            </div>
+                            <div class="next-article">
+                                    <a href="/home/">
+                                        Next - Article
+                                        <img class="arrow" src="/static/arrow.svg" alt="">
+                                    </a>
+                            </div>
+
+                        </div>
+                        <div class="home">
+                            <a href="/home/">
+                                Home
+                            </a>
+                        </div> {% endcomment %}
+                        <div class="limited-sub-option">
+                            <div class="limited-story">
+                                <div class="limited-story-title">
+                                    Want to read the full story?
+
+                                </div>
+                                <div class="limited-story-paragraph">
+                                    Elevate your experience – Unlock the full story now and immerse yourself in a world of exclusive, members-only benefits. Don't miss out!
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="limited-benifites">
+                            <div class="limited-sub-benifites">
+                                <div class="limited-benifites-container1">
+                                        <div class="limited-benifites-container1-articles">
+                                            <div class="limited-benifites-container1-articles-img">
+                                                <img src="{% static 'limit/article.svg' %}" alt="">
+                                            </div>
+                                            <div class="limited-benifites-container1-articles-txt">
+                                                Exclusive Articles
+                                            </div>
+                                        </div>
+                                        <div class="limited-benifites-container1-access">
+                                            <div class="limited-benifites-container1-access-img">
+                                                <img src="{% static 'limit/access.svg' %}" alt="">
+                                            </div>
+                                            <div class="limited-benifites-container1-access-txt">
+                                                Early Access
+                                            </div>
+                                        </div>
+                                </div>  
+                                <div class="limited-benifites-container2">
+                                        <div class="limited-benifites-container2-ad-free">
+                                            <div class="limited-benifites-container1-ad-free-img">
+                                                <img src="{% static 'limit/ad-free.svg' %}" alt="">
+                                            </div>
+                                            <div class="limited-benifites-container1-ad-free-txt">
+                                                Ad-Free Browsing
+                                            </div>
+                                        </div>
+                                        <div class="limited-benifites-container2-research">
+                                            <div class="limited-benifites-container1-research-img">
+                                                <img src="{% static 'limit/research.svg' %}" alt="">
+                                            </div>
+                                            <div class="limited-benifites-container1-research-txt">
+                                                Indepth Research <br> Article
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="limited-call-btn">
+                            
+                            <div class="limited-sub-call-btn">
+                                <a href="/plan/">
+                                        <div class="limited-call-to-action-btn">
+                                        Get Exclusive Access
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+{% endif %} 
+</body>
+</html>

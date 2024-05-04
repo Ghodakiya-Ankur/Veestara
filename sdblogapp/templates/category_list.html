@@ -1,0 +1,63 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+</head>
+<body>
+    <h1>Category List</h1>
+    <ul>
+        {% for category in categories %}
+            <li>{{ category.name }} <form action="{% url 'delete_category' category.slug %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+ {% endcomment %}
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Email Subscriptions</title>
+     {% load static %}
+     <link rel="stylesheet" href="{% static 'category_list.css' %}">
+ </head>
+ <body>
+     <div class="container">
+         <h1>Category</h1>
+         <table>
+             <thead>
+                 <tr>
+                     <th>#</th>
+                     <th>Category</th>
+                     <th>Action</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for category in categories %}
+                 <tr>
+                     {% comment %} <td>{{ category.id }}</td>  {% endcomment %}
+                     <td>{{ forloop.counter }}</td> 
+                     
+                     <td>{{ category.name }}</td>
+                     <td>
+                             <form action="{% url 'delete_category' category.slug %}" method="post">
+                             {% csrf_token %}
+                              <button type="submit">Delete</button>
+                         </form>
+                     </td>
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     </div>
+ </body>
+ </html>
+ 
+ 

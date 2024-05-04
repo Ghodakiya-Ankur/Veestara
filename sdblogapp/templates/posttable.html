@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Table</title>
+    {% comment %} <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;        
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .update-button {
+            text-align: center;
+        }
+        .update-button button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .update-button button:hover {
+            background-color: #45a049;
+        }
+        .input-field {
+            width: 100%;
+        }
+    </style> {% endcomment %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'posttable.css' %}">
+</head>
+<body>
+    <h1>Posts</h1>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <form method="post" action="{% url 'posttableupdate' post.id %}">
+                        {% csrf_token %}
+                        {% comment %} <td>{{ post.id }}</td> {% endcomment %}
+                        <td>{{ forloop.counter }}</td>
+                        <td><input type="text" name="title" class="input-field" value="{{ post.title }}"></td>
+                        <td>
+                            <select name="author" class="input-field">
+                                {% for user in users %}
+                                    <option value="{{ user.id }}" {% if user.id == post.author.id %} selected {% endif %}>{{ user.username }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="category" class="input-field">
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}" {% if category.id == post.category.id %} selected {% endif %}>{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td><input type="text" name="post_date" class="input-field" value="{{ post.post_date }}"></td>
+                        <td class="update-button">
+                            <button type="submit">Update</button>
+                        </td>
+                    </form>
+                    <td class="delete-button">
+                        <form method="post" action="{% url 'posttabledelete' post.id %}">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
+

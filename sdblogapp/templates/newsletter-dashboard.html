@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Subscriptions</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'newsletter-dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Email Subscriptions</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subscription in subscriptions %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ subscription.email }}</td>
+                    <td>
+                        <form action="{% url 'delete_subscription' subscription.id %}" method="post" >
+                            {% csrf_token %}
+                            <button class="forms-btn" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

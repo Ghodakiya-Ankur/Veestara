@@ -1,0 +1,458 @@
+
+{% comment %} ------------------ {% endcomment %}
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Article</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Create New Article</h1>
+
+        <label for="{{ form.title.id_for_label }}">Title:</label>
+        {{ form.title }}
+        {{ form.title.errors }}
+
+        <label for="{{ form.author.id_for_label }}">Author:</label>
+        {{ form.author }}
+        {{ form.author.errors }}
+
+        <label for="{{ form.category.id_for_label }}">Category:</label>
+        {{ form.category }}
+        {{ form.category.errors }}
+
+        <label for="{{ form.body.id_for_label }}">Content:</label>
+        {{ form.media }}
+
+        {{ form.body }}
+        {{ form.body.errors }}
+
+        <label for="{{ form.thumbnail.id_for_label }}">Thumbnail:</label>
+        {{ form.thumbnail }}
+        {{ form.thumbnail.errors }}
+
+
+
+        <button type="submit">Post</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+
+{% comment %} <h1>Posts</h1>
+
+
+<ul>   
+  {% for post in object_list %}
+    <li>
+      <a href="{% url 'detail-article' cat=post.category|slugify slug=post.slug %}">{{ post.title }}</a> - {{ post.author }} <a href="{% url 'category' cat=post.category.slug %}">{{ post.category }}</a>{{ post.post_date|date:"Y-m-d" }} {{ post.post_date.hour }}:{{ post.post_date.minute }}:{{ post.post_date.second }}
+
+      {% if user.is_authenticated %}
+            
+            {% if user.id == post.author.id %}
+              <a href="{% url 'newpost' %}">Add post</a> |
+              <a href="{% url 'newcategory' %}">Add Category</a>|
+
+                <a href="{% url 'updatepost' slug=post.slug %}">Edit</a> |
+                <a href="{% url 'deletepost' slug=post.slug %}">Delete</a>
+            {% endif %}
+              
+        {% endif %}
+        
+
+      {{ post.body | safe | slice:":200" }} <br>
+    </li>
+  {% endfor %}
+</ul>
+<a href="{% url 'login' %}">Login</a><br>
+<a href="{% url 'register' %}">register</a><br>
+<form action="{% url 'logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script>
+        // Wrap your script in window.onload to make sure it runs after the DOM is fully loaded
+        window.onload = function() {
+            // Add click event listeners for each category
+            const categoryElements = document.querySelectorAll('.cricket, .football, .basketball, .baseball, .hocky, .athelatics, .valleyball, .golf');
+
+            categoryElements.forEach(function(category) {
+                category.addEventListener('click', function() {
+                    // Toggle the 'active' class for the clicked category
+                    this.classList.toggle('active');
+
+                    // Remove 'active' from other categories
+                    categoryElements.forEach(function(otherCategory) {
+                        if (otherCategory !== category) {
+                            otherCategory.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        };
+    </script>
+    <style>
+
+
+
+
+
+
+
+    </style>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'edit-profile.css' %}">
+</head>
+<body>
+    <div class="main">
+        <div class="leftpanel">
+            <div class="logo" data-url="/">
+                <div class="sports">Sports</div>
+                <div class="daily">Daily</div>
+            
+            </div>
+            <div class="category">
+                <div class="categories">
+                        <div class="baseball" id="leftpanel" data-url="/prime/">
+                            <img src="/static/limit/article.svg" alt="">
+                            <div class="football-title">Prime</div>
+                        </div>
+                        <div class="cricket" id="leftpanel" data-url="/cricket/">
+                            <img src="/static/icon/category/cricket.png" alt="">
+                            <div class="cricket-title">Cricket</div>
+                        </div>
+                        <div class="football" id="leftpanel" data-url="/football/">
+                            <img src="/static/icon/category/football.png" alt="">
+                            <div class="football-title">Football</div>
+                        </div>
+                        <div class="basketball" id="leftpanel" data-url="/basketball/">
+                            <img src="/static/icon/category/basketball.png" alt="">
+                            <div class="football-title">BasketBall</div>
+                        </div>
+
+                        <div class="hocky" id="leftpanel" data-url="/hockey/">
+                            <img src="/static/icon/category/hocky.png" alt="">
+                            <div class="hocky-title">Hockey</div>
+                        </div>
+                        <div class="athelatics" id="leftpanel" data-url="/athelatics/">
+                            <img src="/static/icon/category/athelatics.png" alt="">
+                            <div class="athelatics-title">Athelatics</div>
+                        </div>
+                        <div class="valleyball" id="leftpanel" data-url="/valley-ball/">
+                            <img src="/static/icon/category/valleyball.png" alt="">
+                            <div class="athelatics-title">Valley Ball</div>
+                        </div>
+                        <div class="golf" id="leftpanel" data-url="/golf/">
+                            <img src="/static/icon/category/golf.png" alt="">
+                            <div class="golf-title">Golf</div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="gird">
+
+                <div class="header">
+                    <div class="header-1">
+                        
+                        <div class="search-container">
+{% comment %}                             
+                            <input class="search-txt" type="text" placeholder="Type To Search...">
+                            <img class="search-icon" src="/static/icon/search.svg" alt=""> {% endcomment %}
+                            <h1>Edit - Profile</h1>
+
+                        </div>
+                    </div>
+                    <div class="header-2">
+                        
+                        <img class="bell" src="/static/icon/bell.svg" alt="bell-icon" id="bell" data-url="/notification/">
+                        <img class="profile" src="/static/icon/profile.png" alt="profile" id="profile" data-url="{% url 'edit-profile' %}">
+                        
+                    </div>
+                </div>
+                <div class="hr"><hr></div>
+                <div class="container-mt-5">
+
+                  {% comment %} <form method="post">
+                      {% csrf_token %} {% endcomment %}
+              
+                      {% comment %} <div class="mb-3">
+                          <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+                          {{ form.first_name }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+                          {{ form.last_name }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.username.id_for_label }}">Username:</label>
+                          {{ form.username }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.email.id_for_label }}">Email:</label>
+                          {{ form.email }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.password.id_for_label }}">Password:</label>
+                          {{ form.password }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.last_login.id_for_label }}">Last Login:</label>
+                          {{ form.last_login }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.is_superuser.id_for_label }}">Is Superuser:</label>
+                          {{ form.is_superuser }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.is_staff.id_for_label }}">Is Staff:</label>
+                          {{ form.is_staff }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.is_active.id_for_label }}">Is Active:</label>
+                          {{ form.is_active }}
+                      </div>
+              
+                      <div class="mb-3">
+                          <label for="{{ form.date_joined.id_for_label }}">Date Joined:</label>
+                          {{ form.date_joined }}
+                      </div> {% endcomment %}
+                      
+              
+                      {% comment %} <button type="submit">Save Changes</button>
+                  </form>
+              
+                  {% extends 'base.html' %} {% endcomment %}
+              
+
+                {% comment %} {{ user.username }}  {# Print username to verify user data #} {% endcomment %}
+{# Print bio to check if the bio is accessible #}
+              
+              
+              
+<form method="post">
+    <div class="username-prime-tick">
+        <div class="user-name">{{ user.profile }}</div>
+        {% if is_prime_user %}
+            <img src="{% static '/profile/prime-tick.svg/' %}" alt="Prime User">
+        {% endif %}
+    </div>
+
+    {{ user.profile.bio }}  
+    {% for user in users %}
+        {{ user.profile.bio }}
+    {% endfor %}
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+        {{ form.first_name }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+        {{ form.last_name }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+    </div>
+
+        <!-- Display subscription expiry date -->
+    {% if is_prime_user %}
+        <div class="subscription-timer">
+            <b>Subscription Expiry Date:</b> {{ user.profile.subscription_expiry_date }}
+        </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <label>Password:</label>
+        <div>
+            <!-- Add password field here -->
+        </div>
+        <a href="{% url 'password' %}">Change Password</a>
+    </div>
+
+    <!-- Add other fields as needed -->
+
+    <button type="submit">Save Changes</button>
+
+    <div class="logout-button-main">
+        <a href="/logout/"><div class="logout-button-sub">
+            Logout
+        </div></a>
+    </div>
+
+
+
+</form>
+
+    {% comment %} <div class="footer">
+        <div class="footer-con">
+            <div class="newsletter">
+                <div class="newsletter-title">
+                    Join Our Newsletter Community
+                </div>
+                <div class="newletter-input-btn">
+                    <input class="newsletter-input-field" type="text" placeholder="Enter Your E-mail....">
+                    <button class="newsletter-btn">Subscribe</button>
+                </div>
+
+            </div>
+            <div class="con-footer">
+                <div class="con1">
+                    <div class="footer-con1-title">About</div>
+                    <div class="footer-dis">Welcome to Sports Daily, your ultimate destination for all things sports! Established with a passion for the game, we bring you comprehensive coverage, insightful analyses, and the latest updates across various sports.</div>
+                </div>
+                <div class="con3">
+                    <div class="sub-con3">
+                        <div class="con3-title">
+                            Reach Us Out
+                        </div>
+                        <div class="con3-email-title">
+                            <img src="/static/icon/email.svg" alt="">
+                            <p>Email - US</p>
+                        </div>
+                        <div class="con3-email">
+                            <p>SportsDaily@Businees.com</p>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="con2">
+                    <div class="footer-con2-title">
+                        Follow - Us
+                    </div>
+                    <div class="social-icon">
+                        <a href="https://twitter.com">
+                            <img src="/static/icon/Twitter.png" alt="Twitter Icon" class="social-icon-img"> 
+                        </a>
+                        <a href="https://www.instagram.com/"><img src="/static/icon/instagram.png" alt="Twitter Icon" class="social-icon-img"></a>               
+                        <img src="/static/icon/Facebook.png" alt="Twitter Icon" class="social-icon-img">
+                        <img src="/static/icon/LinkedIn.png" alt="Twitter Icon" class="social-icon-img">
+                        <img src="/static/icon/YouTube.png" alt="Twitter Icon" class="social-icon-img">
+                    </div>
+                </div>
+                
+            </div>
+            <div class="f-credit">
+                <div class="divider">
+                    <hr>
+                    X
+                    <hr>
+                </div>
+                <div class="footer-c-p">
+                    <div class="footer-credit">
+                        <h3>© 2023 Imagica Resort. All rights reserved</h3>
+                    </div>
+                    <div class="f-page">
+                        <p>Home</p>
+                        <p>About</p>
+                        <p>Contact</p>
+                        <p>Privacy</p>
+                    </div>
+                </div>
+                
+            </div>   
+
+        </div>
+        
+    </div>
+    {% endcomment %}
+    <script>
+        const hlinks = document.querySelectorAll("#leftpanel, .logo, .bell, .profile, .form");
+
+        hlinks.forEach(link => {
+            link.addEventListener("click", function () {
+                const url = this.getAttribute('data-url');
+                window.location.href = url
+
+                this.classList.add('clicked');
+
+                // Remove the 'clicked' class after a short delay (for visual feedback)
+                setTimeout(() => {
+                    this.classList.remove('clicked');
+                }, 300);
+            })
+        })
+
+    </script>
+</body>
+</html>
